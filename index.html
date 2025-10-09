@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoofMaps - Track Hail Storms in Real-Time</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">RoofMaps</div>
+            <nav>
+                <a href="#features">Features</a>
+                <a href="#map">Map</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Track Hail Storms in Real-Time</h1>
+            <p>RoofMaps helps homeowners, insurers, and contractors monitor hail activity across your area.</p>
+            <a href="#map" class="cta-button">View Live Map</a>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Why Choose RoofMaps?</h2>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>Live Hail Maps</h3>
+                <p>Access interactive real-time hail maps showing storm patterns and intensity across your region with up-to-the-minute accuracy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Storm Alerts</h3>
+                <p>Receive instant notifications when hail storms approach your area, giving you time to protect your property and prepare.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Historical Data</h3>
+                <p>Analyze past hail events with comprehensive historical data to understand storm patterns and assess property risk.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="map" class="map-section">
+        <h2>Interactive Hail Map</h2>
+        <div id="map"></div>
+    </section>
+
+    <footer id="contact">
+        <p><strong>Contact Us:</strong> info@roofmaps.com | (555) 123-4567</p>
+        <p>&copy; 2025 RoofMaps. All rights reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
