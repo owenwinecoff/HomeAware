@@ -3,10 +3,12 @@ import { loadYear, generateSampleData } from './data.js';
 import { initMap, renderMarkers } from './map.js';
 import { buildYearTabs, tabEls, setStatus, openPanel, closePanel } from './ui.js';
 
-const cache   = {};
+const cache    = {};
 let activeYear = null;
 
 const map = initMap();
+
+L.DomEvent.disableClickPropagation(document.getElementById('info-panel'));
 
 // ── Map click → open panel with coords ──
 map.on('click', e => openPanel(e.latlng.lat, e.latlng.lng));
@@ -18,7 +20,10 @@ map.on('popupopen', e => {
 });
 
 // ── Panel close ──
-document.getElementById('panel-close').addEventListener('click', closePanel);
+document.getElementById('panel-close').addEventListener('click', e => {
+  L.DomEvent.stopPropagation(e);
+  closePanel();
+});
 
 // ── Filters ──
 document.getElementById('month-filter').addEventListener('change', redraw);
