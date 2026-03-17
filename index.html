@@ -1,65 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoofMaps - Track Hail Storms in Real-Time</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HomeAware — Hail Reports</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">RoofMaps</div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#map">Map</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Track Hail Storms in Real-Time</h1>
-            <p>RoofMaps helps homeowners, insurers, and contractors monitor hail activity across your area.</p>
-            <a href="#map" class="cta-button">View Live Map</a>
-        </div>
-    </section>
+<header>
+  <div class="brand">
+    <div class="brand-logo">HA</div>
+    <div class="brand-text">
+      <span class="brand-name">HomeAware</span>
+      <span class="brand-sub">by <span>Winecoff Construction</span></span>
+    </div>
+  </div>
 
-    <section id="features" class="features">
-        <h2>Why Choose RoofMaps?</h2>
-        <div class="feature-cards">
-            <div class="feature-card">
-                <div class="feature-icon">🗺️</div>
-                <h3>Live Hail Maps</h3>
-                <p>Access interactive real-time hail maps showing storm patterns and intensity across your region with up-to-the-minute accuracy.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔔</div>
-                <h3>Storm Alerts</h3>
-                <p>Receive instant notifications when hail storms approach your area, giving you time to protect your property and prepare.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Historical Data</h3>
-                <p>Analyze past hail events with comprehensive historical data to understand storm patterns and assess property risk.</p>
-            </div>
-        </div>
-    </section>
+  <div class="year-tabs" id="year-tabs"></div>
 
-    <section id="map" class="map-section">
-        <h2>Interactive Hail Map</h2>
-        <div id="map"></div>
-    </section>
+  <div class="stats">
+    <div class="stat"><div class="num" id="total-count">—</div><div class="label">Reports</div></div>
+    <div class="stat"><div class="num" id="max-size">—"</div><div class="label">Max Size</div></div>
+    <div class="stat"><div class="num" id="year-display">—</div><div class="label">Year</div></div>
+  </div>
+</header>
 
-    <footer id="contact">
-        <p><strong>Contact Us:</strong> wine1631@stthomas.edu | (612) 210 - 2528</p>
-        <p>&copy; 2025 Owen Winecoff. All rights reserved.</p>
-    </footer>
+<div class="controls">
+  <label>Month</label>
+  <select id="month-filter">
+    <option value="all">All Months</option>
+    <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+    <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+    <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+    <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+  </select>
 
-    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
-    <script src="maplibre-base.js"></script>
+  <label>Min Size</label>
+  <input type="range" id="size-filter" min="0" max="4" step="0.25" value="0"/>
+  <span class="size-val" id="size-val">Any</span>
+
+  <div class="cache-badges" id="cache-badges"></div>
+  <span id="status">Select a year to load</span>
+</div>
+
+<div id="map">
+
+  <!-- Info Panel -->
+  <div id="info-panel">
+    <div class="panel-header">
+      <div class="panel-header-left">
+        <div class="panel-eyebrow">HomeAware</div>
+        <div class="panel-title" id="panel-title">Location Info</div>
+        <div class="panel-subtitle" id="panel-subtitle">Click anywhere on the map</div>
+      </div>
+      <button class="panel-close" id="panel-close" title="Close">✕</button>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <h4>Hail Size</h4>
+    <div class="legend-row"><div class="legend-dot" style="width:6px;height:6px;background:#60c8f0;"></div><span>&lt; 1" (pea)</span></div>
+    <div class="legend-row"><div class="legend-dot" style="width:9px;height:9px;background:#f0c040;"></div><span>1"–2" (quarter)</span></div>
+    <div class="legend-row"><div class="legend-dot" style="width:13px;height:13px;background:#F26522;"></div><span>2"–3" (golf ball)</span></div>
+    <div class="legend-row"><div class="legend-dot" style="width:18px;height:18px;background:#cc2200;"></div><span>3"–5" (baseball)</span></div>
+    <div class="legend-row"><div class="legend-dot" style="width:18px;height:18px;background:#390549ff;"></div><span>&gt; 5" (gorilla+)</span></div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script type="module" src="../js/main.js"></script>
 </body>
 </html>
